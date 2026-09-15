@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bishal Party - Wallet</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #0b081e; color: #ffffff; padding: 16px; padding-bottom: 80px; }
+    
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .back-btn { background: none; border: none; color: #9ca3af; font-size: 20px; cursor: pointer; }
+    .title { font-size: 18px; font-weight: bold; }
+    
+    .lang-select {
+      background: #161233; color: #c084fc; border: 1px solid #a855f7;
+      padding: 4px 8px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
+    }
+    
+    .diamond-card {
+      background: linear-gradient(135deg, #4c1d95, #1e1b4b);
+      border-radius: 16px; padding: 20px; border: 1px solid #a855f7; margin-bottom: 16px;
+    }
+    .balance-amount { font-size: 32px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: #facc15; }
+    .usd-val { font-size: 13px; color: #e9d5ff; margin-bottom: 16px; }
+    
+    .input-box {
+      width: 100%; padding: 12px; background: #0f0c29; border: 1px solid #a855f7;
+      border-radius: 10px; color: white; font-size: 14px; margin-bottom: 10px; outline: none;
+    }
+    .withdraw-btn {
+      width: 100%; background: linear-gradient(to right, #ec4899, #8b5cf6);
+      color: white; font-weight: bold; padding: 12px; border: none; border-radius: 12px;
+      font-size: 14px; cursor: pointer; transition: 0.2s;
+    }
+    .withdraw-btn:active { transform: scale(0.98); }
+    
+    .coin-card {
+      background-color: #161233; border-radius: 16px; padding: 16px; border: 1px solid #3b0764;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+    }
+    .topup-btn { background-color: #7e22ce; color: white; font-size: 12px; font-weight: bold; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; }
+
+    /* Modal / Popup Box */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75); display: none; justify-content: center; align-items: center; z-index: 999;
+    }
+    .modal-content {
+      background: #161233; border: 1px solid #a855f7; border-radius: 16px; padding: 20px; width: 90%; max-width: 350px; text-align: center;
+    }
+    .method-btn {
+      width: 100%; background: #231d45; border: 1px solid #581c87; color: white;
+      padding: 10px; border-radius: 8px; margin: 6px 0; font-weight: bold; cursor: pointer; text-align: left;
+    }
+    .method-btn:hover { border-color: #ec4899; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <button class="back-btn" onclick="window.history.back()">⬅</button>
+    <div class="title" id="pageTitle">Bishal Party Wallet</div>
+    
+    <select class="lang-select" id="langSelector" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="ur">اردو (Urdu)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+    </select>
+  </div>
+
+  <!-- Diamond Card -->
+  <div class="diamond-card">
+    <div style="font-size: 13px; color: #e9d5ff; margin-bottom: 4px;" id="totalLabel">Total Earnings (Diamonds)</div>
+    <div class="balance-amount">
+      <span id="diamondDisplay">2,000,000</span> 💎
+    </div>
+    <div class="usd-val">
+      <span id="rateLabel">Value:</span> $<span id="usdValue">1.00</span> USD <br>
+      <small style="color: #d8b4fe;">(2,000,000 💎 = $1.00 USD)</small>
+    </div>
+
+    <!-- Interactive Input & Button -->
+    <input type="number" id="withdrawInput" class="input-box" placeholder="Enter Diamonds to Withdraw">
+    <button class="withdraw-btn" id="withdrawBtn" onclick="openPaymentModal()">Withdraw Diamonds</button>
+  </div>
+
+  <!-- Coin Balance Card -->
+  <div class="coin-card">
+    <div>
+      <div style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;" id="coinLabel">Coin Balance</div>
+      <div style="font-size: 20px; font-weight: bold;"><span id="coinDisplay">102,048,000</span> 🪙</div>
+    </div>
+    <button class="topup-btn" id="topupBtn" onclick="topUpCoins()">Top Up Coins</button>
+  </div>
+
+  <!-- Withdrawal Modal -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 12px; color: #facc15;" id="modalTitle">Select Payment Method</h3>
+      
+      <button class="method-btn" onclick="confirmWithdraw('bKash / Nagad')">📱 bKash / Nagad</button>
+      <button class="method-btn" onclick="confirmWithdraw('Binance Pay')">💲 Binance Pay (USDT)</button>
+      <button class="method-btn" onclick="confirmWithdraw('EasyPaisa / JazzCash')">🇵🇰 EasyPaisa / JazzCash</button>
+      <button class="method-btn" onclick="confirmWithdraw('Bank Transfer')">🏦 Bank Transfer</button>
+      
+      <input type="text" id="accountNo" class="input-box" style="margin-top: 10px;" placeholder="Enter Account / Wallet ID">
+
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button onclick="closeModal()" style="width: 50%; background: #4b5563; color: white; border: none; padding: 10px; border-radius: 8px;">Cancel</button>
+        <button onclick="submitRequest()" style="width: 50%; background: #ec4899; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold;">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let userDiamonds = 2000000;
+    let userCoins = 102048000;
+    let selectedMethod = '';
+
+    function updateUI() {
+      document.getElementById('diamondDisplay').innerText = userDiamonds.toLocaleString();
+      document.getElementById('usdValue').innerText = (userDiamonds / 2000000).toFixed(2);
+      document.getElementById('coinDisplay').innerText = userCoins.toLocaleString();
+    }
+
+    function openPaymentModal() {
+      const amount = parseInt(document.getElementById('withdrawInput').value);
+      if (!amount || amount <= 0) {
+        alert("Enter a valid amount!");
+        return;
+      }
+      if (amount > userDiamonds) {
+        alert("Insufficient Diamonds!");
+        return;
+      }
+      document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    function confirmWithdraw(method) {
+      selectedMethod = method;
+      alert("Selected Method: " + method);
+    }
+
+    function submitRequest() {
+      const account = document.getElementById('accountNo').value;
+      const amount = parseInt(document.getElementById('withdrawInput').value);
+
+      if (!selectedMethod) {
+        alert("Please select a payment method!");
+        return;
+      }
+      if (!account) {
+        alert("Please enter your account number!");
+        return;
+      }
+
+      userDiamonds -= amount;
+      updateUI();
+      closeModal();
+      document.getElementById('withdrawInput').value = '';
+      document.getElementById('accountNo').value = '';
+      alert(`Success! Withdrawal request of ${amount.toLocaleString()} Diamonds ($${(amount/2000000).toFixed(2)} USD) via ${selectedMethod} submitted.`);
+    }
+
+    function topUpCoins() {
+      userCoins += 2000000;
+      updateUI();
+    }
+  </script>
+</body>
+</html>
