@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bishal Party - Live Voice Chat & Wallet</title>
+  
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -30,7 +34,7 @@
       gap: 16px;
     }
 
-    /* Header Profile Card */
+    /* Header Profile Card (Clickable) */
     .profile-card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -40,6 +44,13 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .profile-card:active {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(0.98);
     }
 
     .avatar-box {
@@ -186,16 +197,16 @@
 
   <div class="app-container">
     
-    <!-- User Profile Header -->
-    <div class="profile-card">
+    <!-- User Profile Header (Clickable) -->
+    <div class="profile-card" onclick="openProfile()">
       <div class="avatar-box">🎙️</div>
       <div class="user-info">
-        <h2>Bishal Host</h2>
-        <p>ID: 8849201 • Official Host</p>
+        <h2 id="userName">Bishal Host</h2>
+        <p id="userId">ID: 8849201 • Official Host</p>
       </div>
     </div>
 
-    <!-- Main Wallet Card (Clickable to Wallet Page) -->
+    <!-- Main Wallet Card -->
     <div class="wallet-card" onclick="goToWallet()">
       <div class="wallet-left">
         <div class="wallet-icon-bg">💎</div>
@@ -235,6 +246,25 @@
   </div>
 
   <script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.expand(); // Make full screen
+      
+      // Auto fetch User Info from Telegram
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        document.getElementById('userName').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+        document.getElementById('userId').innerText = 'ID: ' + user.id + ' • Official Host';
+      }
+    }
+
+    function openProfile() {
+      const name = document.getElementById('userName').innerText;
+      const id = document.getElementById('userId').innerText;
+      alert(`👤 Profile Details:\n\nName: ${name}\n${id}\nStatus: Verified Official Host`);
+    }
+
     function goToWallet() {
       window.location.href = "wallet.html";
     }
