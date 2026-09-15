@@ -94,7 +94,28 @@
         <div class="cursor-pointer" onclick="openPage('visitors.html')">
           <div class="text-base font-extrabold">3</div>
           <div class="text-[11px] text-gray-400">Visitors</div>
+        </div><!-- User Profile Header -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- প্রোফাইল পিকচারে টাচ করলে এডিট প্রোফাইলে নিয়ে যাবে -->
+          <img id="avatar" 
+               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250" 
+               class="w-14 h-14 rounded-full object-cover border-2 border-purple-500 shadow-md cursor-pointer active:scale-95 transition"
+               onclick="openPage('edit_profile.html')">
+          <div>
+            <h2 class="text-base font-bold flex items-center gap-1">দাদা ভাই™</h2>
+            <div class="flex items-center gap-1.5 text-xs text-purple-200 mt-0.5">
+              <i class="fa-solid fa-address-card text-[11px]"></i>
+              <span>101223</span>
+              <i class="fa-regular fa-copy text-[10px] cursor-pointer ml-1" onclick="copyID('101223')"></i>
+            </div>
+          </div>
         </div>
+        <!-- ডান পাশের এডিট আইকনে টাচ করলেও এডিট প্রোফাইলে নিয়ে যাবে -->
+        <button class="text-lg text-purple-300 p-2 active:scale-95 transition" onclick="openPage('edit_profile.html')">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+      </div>
         <div class="cursor-pointer" onclick="openPage('following.html')">
           <div class="text-base font-extrabold">2</div>
           <div class="text-[11px] text-gray-400">Following</div>
