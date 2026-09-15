@@ -156,6 +156,12 @@
       gap: 8px;
       text-align: center;
       cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .grid-item:active {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(0.97);
     }
 
     .grid-item span {
@@ -167,7 +173,6 @@
       font-weight: 600;
     }
 
-    /* Footer Navigation */
     footer {
       margin-top: auto;
       padding-top: 20px;
@@ -205,15 +210,15 @@
     <!-- Quick Features -->
     <div class="section-title">Quick Actions</div>
     <div class="grid-container">
-      <div class="grid-item">
+      <div class="grid-item" onclick="openFeature('Voice Party Room')">
         <span>🎧</span>
         <p>Voice Party Room</p>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" onclick="openFeature('CP Space')">
         <span>👑</span>
         <p>CP Space</p>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" onclick="openFeature('Family Space')">
         <span>👨‍👩‍👧‍👦</span>
         <p>Family Space</p>
       </div>
@@ -231,8 +236,11 @@
 
   <script>
     function goToWallet() {
-      // লিঙ্ক করা wallet.html পেজ
       window.location.href = "wallet.html";
+    }
+
+    function openFeature(name) {
+      alert(name + " ফিচারটি শীঘ্রই আসছে (Coming Soon)!");
     }
   </script>
 
