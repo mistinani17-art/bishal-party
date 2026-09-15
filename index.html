@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bishal Party - Live Voice Chat & Wallet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 450px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Header Profile Card */
+    .profile-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar-box {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #ec4899;
+      background: #312e81;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .user-info h2 {
+      font-size: 18px;
+      color: #ffffff;
+    }
+
+    .user-info p {
+      font-size: 12px;
+      color: #a7f3d0;
+    }
+
+    /* Wallet Banner Card */
+    .wallet-card {
+      background: linear-gradient(135deg, #311042 0%, #1e1b4b 100%);
+      border: 1px solid #a855f7;
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.25);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .wallet-card:active {
+      transform: scale(0.98);
+    }
+
+    .wallet-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wallet-icon-bg {
+      background: rgba(168, 85, 247, 0.2);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .wallet-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wallet-title {
+      font-size: 11px;
+      color: #c084fc;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .wallet-balance {
+      font-size: 18px;
+      font-weight: 800;
+      color: #facc15;
+    }
+
+    .withdraw-btn {
+      background: linear-gradient(90deg, #ec4899, #8b5cf6);
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+    }
+
+    /* App Features Grid */
+    .section-title {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-top: 6px;
+      margin-bottom: -6px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .grid-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .grid-item span {
+      font-size: 28px;
+    }
+
+    .grid-item p {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Footer Navigation */
+    footer {
+      margin-top: auto;
+      padding-top: 20px;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- User Profile Header -->
+    <div class="profile-card">
+      <div class="avatar-box">🎙️</div>
+      <div class="user-info">
+        <h2>Bishal Host</h2>
+        <p>ID: 8849201 • Official Host</p>
+      </div>
+    </div>
+
+    <!-- Main Wallet Card (Clickable to Wallet Page) -->
+    <div class="wallet-card" onclick="goToWallet()">
+      <div class="wallet-left">
+        <div class="wallet-icon-bg">💎</div>
+        <div class="wallet-details">
+          <span class="wallet-title">Diamond Wallet</span>
+          <span class="wallet-balance">2,000,000 Diamonds</span>
+        </div>
+      </div>
+      <button class="withdraw-btn">Withdraw ➔</button>
+    </div>
+
+    <!-- Quick Features -->
+    <div class="section-title">Quick Actions</div>
+    <div class="grid-container">
+      <div class="grid-item">
+        <span>🎧</span>
+        <p>Voice Party Room</p>
+      </div>
+      <div class="grid-item">
+        <span>👑</span>
+        <p>CP Space</p>
+      </div>
+      <div class="grid-item">
+        <span>👨‍👩‍👧‍👦</span>
+        <p>Family Space</p>
+      </div>
+      <div class="grid-item" onclick="goToWallet()">
+        <span>💰</span>
+        <p>Cash Out</p>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 Bishal Party App • Powered by GitHub Pages
+    </footer>
+
+  </div>
+
+  <script>
+    function goToWallet() {
+      // লিঙ্ক করা wallet.html পেজ
+      window.location.href = "wallet.html";
+    }
+  </script>
+
+</body>
+</html>
