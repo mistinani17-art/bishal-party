@@ -34,7 +34,7 @@
       gap: 16px;
     }
 
-    /* Header Profile Card (Clickable) */
+    /* Header Profile Card */
     .profile-card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -63,6 +63,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+    }
+
+    .avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-placeholder {
       font-size: 28px;
     }
 
@@ -197,9 +208,11 @@
 
   <div class="app-container">
     
-    <!-- User Profile Header (Clickable) -->
+    <!-- User Profile Header (Avatar Clickable) -->
     <div class="profile-card" onclick="openProfile()">
-      <div class="avatar-box">🎙️</div>
+      <div class="avatar-box" id="avatarBox">
+        <span class="avatar-placeholder">🎙️</span>
+      </div>
       <div class="user-info">
         <h2 id="userName">Bishal Host</h2>
         <p id="userId">ID: 8849201 • Official Host</p>
@@ -246,23 +259,30 @@
   </div>
 
   <script>
-    // Initialize Telegram WebApp
+    // Telegram WebApp Initialization
     const tg = window.Telegram ? window.Telegram.WebApp : null;
+    
     if (tg) {
-      tg.expand(); // Make full screen
+      tg.expand();
       
-      // Auto fetch User Info from Telegram
+      // Load user profile details and Photo URL from Telegram
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         const user = tg.initDataUnsafe.user;
         document.getElementById('userName').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
         document.getElementById('userId').innerText = 'ID: ' + user.id + ' • Official Host';
+
+        // Load Avatar photo if available
+        if (user.photo_url) {
+          const avatarBox = document.getElementById('avatarBox');
+          avatarBox.innerHTML = `<img src="${user.photo_url}" alt="Profile Photo">`;
+        }
       }
     }
 
     function openProfile() {
       const name = document.getElementById('userName').innerText;
       const id = document.getElementById('userId').innerText;
-      alert(`👤 Profile Details:\n\nName: ${name}\n${id}\nStatus: Verified Official Host`);
+      alert(`👤 Profile Settings\n\nName: ${name}\n${id}\n\nStatus: Official Verified Host\n\n(Profile Photo updates directly from Telegram)`);
     }
 
     function goToWallet() {
